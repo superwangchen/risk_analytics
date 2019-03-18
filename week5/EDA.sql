@@ -23,19 +23,19 @@ describe previous_application;
 describe POS_CASH_balance;
 
 # 4
-select count(*), count(distinct sk_id_curr) from application; 
+select count(*), count(distinct sk_id_curr) from application;
 
-select count(*), count(distinct sk_id_curr) from bureau; 
+select count(*), count(distinct sk_id_curr) from bureau;
 
-select count(*), count(distinct SK_ID_BUREAU) from bureau_balance; 
+select count(*), count(distinct SK_ID_BUREAU) from bureau_balance;
 
-select count(*), count(distinct sk_id_curr) from credit_card_balance; 
+select count(*), count(distinct sk_id_curr) from credit_card_balance;
 
-select count(*), count(distinct sk_id_curr) from installments_payments; 
+select count(*), count(distinct sk_id_curr) from installments_payments;
 
-select count(*), count(distinct sk_id_curr) from previous_application; 
+select count(*), count(distinct sk_id_curr) from previous_application;
 
-select count(*), count(distinct sk_id_curr) from POS_CASH_balance; 
+select count(*), count(distinct sk_id_curr) from POS_CASH_balance;
 
 # 5
 select credit_type, count(*), count(distinct sk_id_curr)
@@ -56,7 +56,7 @@ join bureau as b
 on a.sk_id_curr=b.sk_id_curr
 where a.sk_id_curr=215354;
 
-# 7 
+# 7
 select count(distinct amt_credit) from application;
 select AMT_CREDIT, count(*) from application group by 1 limit 6000;
 
@@ -75,12 +75,12 @@ select NAME_EDUCATION_TYPE, count(*) from application group by 1;
 # 12
 select target, NAME_EDUCATION_TYPE, count(*) from application group by 1,2;
 
-#13 
+#13
 select target, OCCUPATION_TYPE, count(*) from application group by 1,2;
 
 # 14 check average and median income by different job titles
 	-- median is not supported by SQL, we need to use Python later
-    
+
 select ORGANIZATION_TYPE, avg(AMT_INCOME_TOTAL)
 from application group by 1;
 
@@ -96,7 +96,7 @@ from application;
 
 # 16
 
-select a.*, 
+select a.*,
 AMT_CREDIT/AMT_ANNUITY as NEW_CREDIT_TO_ANNUITY_RATIO,
 AMT_CREDIT/AMT_GOODS_PRICE as NEW_CREDIT_TO_GOODS_RATIO,
 OWN_CAR_AGE/DAYS_BIRTH as NEW_CAR_TO_BIRTH_RATIO,
@@ -145,7 +145,7 @@ sum(AMT_CREDIT_SUM_LIMIT),
 avg(AMT_ANNUITY),
 sum(AMT_ANNUITY)
 
-from bureau 
+from bureau
 -- use one account to test: where sk_id_curr=215354
 group by 1,2;
 
@@ -247,8 +247,8 @@ group by 1;
 /* select sk_bureau_id, credit_active, count(distinct sk_id_curr), count(*) from bureau group by 1,2
 having count(distinct sk_id_curr) <> count(*); */
 
-select SK_ID_CURR, 
-max(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_flag, 
+select SK_ID_CURR,
+max(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_flag,
 sum(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_num
 from bureau
 group by 1;
@@ -256,15 +256,15 @@ group by 1;
 
 # 21
 
-select 
+select
 sum(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_num,
 count(distinct SK_ID_CURR) from bureau;
 
--- select * from bureau where CREDIT_ACTIVE='Bad Debt' 
+-- select * from bureau where CREDIT_ACTIVE='Bad Debt'
 
 # 22
 
-select a.*, 
+select a.*,
 AMT_CREDIT/AMT_ANNUITY as NEW_CREDIT_TO_ANNUITY_RATIO,
 AMT_CREDIT/AMT_GOODS_PRICE as NEW_CREDIT_TO_GOODS_RATIO,
 OWN_CAR_AGE/DAYS_BIRTH as NEW_CAR_TO_BIRTH_RATIO,
@@ -356,7 +356,7 @@ left join
 (select ORGANIZATION_TYPE, avg(AMT_INCOME_TOTAL) as NEW_AVG_INC_BY_ORG
 from application group by 1) as b
 on a.ORGANIZATION_TYPE=b.ORGANIZATION_TYPE
-left join 
+left join
 (
 select SK_ID_CURR,
 max(case when CREDIT_ACTIVE='Closed' then DAYS_CREDIT else null end) as cl_max_DAYS_CREDIT,
@@ -443,10 +443,10 @@ avg(case when CREDIT_ACTIVE='Sold' then AMT_ANNUITY else null end) as sd_avg_AMT
 sum(case when CREDIT_ACTIVE='Sold' then AMT_ANNUITY else null end) as sd_sum_AMT_ANNUITY,
 avg(case when CREDIT_ACTIVE='Bad Debt' then AMT_ANNUITY else null end) as bd_avg_AMT_ANNUITY,
 sum(case when CREDIT_ACTIVE='Bad Debt' then AMT_ANNUITY else null end) as bd_sum_AMT_ANNUITY,
-max(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_flag, 
+max(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_flag,
 sum(case when  CREDIT_ACTIVE='Bad Debt'  then 1 else 0 end) as bd_num
 from bureau
 group by 1) as c
 on a.SK_ID_CURR=c.SK_ID_CURR;
 
-
+#changes changes
